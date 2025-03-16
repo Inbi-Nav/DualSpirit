@@ -77,7 +77,7 @@ public Vector2 wallJumpPower = new Vector2(5f, 10f);
         if (!isGrounded && WallCheck() && horizontalMovement != 0)
         {
             isWallSliding = true;
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -wallSlideSpeed)); // Caps fall rate
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -wallSlideSpeed)); 
         }
         else
         {
@@ -129,7 +129,7 @@ public Vector2 wallJumpPower = new Vector2(5f, 10f);
         if (context.performed && wallJumpTimer > 0f)
         {
             isWallJumping = true;
-            rb.linearVelocity = new Vector2(wallJumpDirection * wallJumpPower.x, wallJumpPower.y); // Jump away from wall
+            rb.linearVelocity = new Vector2(wallJumpDirection * wallJumpPower.x, wallJumpPower.y); 
             wallJumpTimer = 0;
 
 
@@ -140,14 +140,14 @@ public Vector2 wallJumpPower = new Vector2(5f, 10f);
             transform.localScale = ls;
         }
 
-            Invoke(nameof(CancelWallJump), wallJumpTime + 0.1f); // Wall Jump = 0.5s -- Jump again = 0.6s
+            Invoke(nameof(CancelWallJump), wallJumpTime + 0.1f);
         }
     }
 
 
     private void GroundCheck()
     {
-        if (Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer)) //checks if set box overlaps with ground
+        if (Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer)) 
         {
             jumpsRemaining = maxJumps;
             isGrounded = true;
