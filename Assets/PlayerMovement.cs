@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
 public Rigidbody2D rb;
+public Animator animator;
 bool isFacingRight = true;
+public ParticleSystem smokeFX;
     
 [Header("Movement")]
 public float moveSpeed = 5f;
@@ -47,16 +50,20 @@ public Vector2 wallJumpPower = new Vector2(5f, 10f);
 
    void Update()
     {
-    GroundCheck();
-    ProcessGravity();
-    ProcessWallSlide();
-    ProcessWallJump();
+        GroundCheck();
+        ProcessGravity();
+        ProcessWallSlide();
+        ProcessWallJump();
 
-    if (!isWallJumping)
+        if (!isWallJumping)
         {
-        rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
-        Flip();
+            rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
+            Flip();
         }
+        animator.SetFloat("yVelocity", rb.linearVelocity.y);
+        animator.SetFloat("magnitude", rb.linearVelocity.magnitude);
+        animator.SetBool("isWallSliding", isWallSliding);
+
     }
 
     private void ProcessGravity()
@@ -118,11 +125,15 @@ public Vector2 wallJumpPower = new Vector2(5f, 10f);
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
                 jumpsRemaining--;
+                animator.SetTrigger("jump");
+                smokeFX.Play();
             }
             else if (context.canceled && rb.linearVelocity.y > 0)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
                 jumpsRemaining--;
+                JumpFX();
+
             }
         }
 
@@ -131,19 +142,26 @@ public Vector2 wallJumpPower = new Vector2(5f, 10f);
             isWallJumping = true;
             rb.linearVelocity = new Vector2(wallJumpDirection * wallJumpPower.x, wallJumpPower.y); 
             wallJumpTimer = 0;
+            JumpFX();
 
-
+            
+            if(transform.localScale.x != wallJumpDirection)
             {
             isFacingRight = !isFacingRight;
             Vector3 ls = transform.localScale;
             ls.x *= -1f;
             transform.localScale = ls;
-        }
+            }
 
             Invoke(nameof(CancelWallJump), wallJumpTime + 0.1f);
         }
     }
 
+    private void JumpFX()
+    {
+        animator.SetTrigger("jump");
+        smokeFX.Play();
+    }
 
     private void GroundCheck()
     {
@@ -172,6 +190,11 @@ public Vector2 wallJumpPower = new Vector2(5f, 10f);
             Vector3 ls = transform.localScale;
             ls.x *= -1f;
             transform.localScale = ls;
+            
+            if(rb.linearVelocity.y == 0)
+            {
+            smokeFX.Play();
+            }
         }
     }
 
