@@ -1881,6 +1881,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  baseGravity: 2
+  maxFallSpeed: 18
+  fallSpeedMultiplier: 2
 --- !u!114 &836666392
 MonoBehaviour:
   m_ObjectHideFlags: 0
