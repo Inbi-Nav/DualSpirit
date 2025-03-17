@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\HoldToLoadLevel.cs" />
     <Compile Include="Assets\Scripts\IItem.cs" />
     <Compile Include="Assets\Collector.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />

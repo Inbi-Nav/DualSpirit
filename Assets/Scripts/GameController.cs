@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
         progressAmount = 0;
         progressSlider.value = 0;
         Gem.OnGemCollect += IncreaseProgressAmount;
+        HoldToLoadLevel.OnHoldCOmplete += LoadNextLevel;
     }
 
     void IncreaseProgressAmount(int amount)
@@ -26,7 +27,8 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void Update()
+    void LoadNextLevel()
     {
+
     }
 }
