@@ -11,39 +11,28 @@ public class Enemy : MonoBehaviour
     private bool isGrounded;
     private bool shouldJump;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Is Grounded?
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
 
-        // Player Direction
         float direction = Mathf.Sign(player.position.x - transform.position.x);
 
-        // Player above detection
         bool isPlayerAbove = Physics2D.Raycast(transform.position, Vector2.up, 3f, 1 << player.gameObject.layer);
 
         if (isGrounded)
         {
-            // Chase player
             rb.linearVelocity = new Vector2(direction * chaseSpeed, rb.linearVelocity.y);
 
-            // Jump if there's gap ahead && no ground in front
-            // else if there's player above and platform above
 
-            // If Ground
             RaycastHit2D groundInFront = Physics2D.Raycast(transform.position, new Vector2(direction, 0), 2f, groundLayer);
 
-            // If gap
             RaycastHit2D gapAhead = Physics2D.Raycast(transform.position + new Vector3(direction, 0, 0), Vector2.down, 2f, groundLayer);
 
-            // If platform above
             RaycastHit2D platformAbove = Physics2D.Raycast(transform.position, Vector2.up, 3f, groundLayer);
 
             if (!groundInFront.collider && !gapAhead.collider)
