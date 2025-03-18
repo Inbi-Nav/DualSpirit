@@ -8,11 +8,14 @@ public class PlayerHealth : MonoBehaviour
     private int currentHealth;
 
     public HealthUI healthUI;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         currentHealth = maxHealth;
         healthUI.SetMaxHearts(maxHealth);
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -28,10 +31,17 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth -= damage;
         healthUI.UpdateHearts(currentHealth);
-
+        StartCoroutine(FlashRed());
         if (currentHealth <= 0)
         {
             
         }
+    }
+
+    private IEnumerator FlashRed()
+    {
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        spriteRenderer.color = Color.white;
     }
 }
