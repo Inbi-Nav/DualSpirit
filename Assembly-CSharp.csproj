@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\IItem.cs" />
     <Compile Include="Assets\Collector.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\ObjectSpawner.cs" />
     <Compile Include="Assets\Scripts\Gem.cs" />
   </ItemGroup>
   <ItemGroup>
