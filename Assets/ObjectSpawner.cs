@@ -25,6 +25,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         GatherValidPositions();
         StartCoroutine(SpawningObjectsIfNeeded());
+        GameController.OnReset += LevelChange;
     }
     void Update()
     {
@@ -154,7 +155,7 @@ public class ObjectSpawner : MonoBehaviour
                 TileBase tile = allTiles[x + y * boundsInt.size.x];
                 if (tile != null)
                 {
-                    Vector3 place = start + new Vector3(x + 0.5f, y + 2f, 0);
+                    Vector3 place = start + new Vector3(x + 7f, y + 9f, 0);
                     validSpawnPositions.Add(place);
                 }
             }

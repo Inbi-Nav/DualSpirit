@@ -11,7 +11,7 @@ public class HoldToLoadLevel : MonoBehaviour
     private float holdTimer = 0;
     private bool isHolding = false;
 
-    public static event Action OnHoldCOmplete;
+    public static event Action OnHoldComplete;
 
     void Update()
     {
@@ -21,7 +21,7 @@ public class HoldToLoadLevel : MonoBehaviour
             fillCircle.fillAmount = holdTimer / holdDuration;
             if (holdTimer >= holdDuration)
             {
-                OnHoldCOmplete.Invoke();
+                OnHoldComplete.Invoke();
                 ResetHold();
             }
         }
