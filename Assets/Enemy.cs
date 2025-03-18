@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
     public float chaseSpeed = 2f;
     public float jumpForce = 8f; 
     public LayerMask groundLayer;
-
+    public int damage = 1;
     private Rigidbody2D rb;
     private bool isGrounded;
     private bool shouldJump;
