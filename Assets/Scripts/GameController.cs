@@ -13,7 +13,6 @@ public class GameController : MonoBehaviour
     public List<GameObject> levels;
     private int currentLevelIndex = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
         progressAmount = 0;
@@ -30,7 +29,6 @@ public class GameController : MonoBehaviour
         progressSlider.value = progressAmount;
         if (progressAmount >= 100)
         {
-            // Level complete!
             loadCanvas.SetActive(true);
             Debug.Log("Level Complete");
         }

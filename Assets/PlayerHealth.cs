@@ -9,7 +9,6 @@ public class PlayerHealth : MonoBehaviour
 
     public HealthUI healthUI;
 
-    // Start is called before the first frame update
     void Start()
     {
         currentHealth = maxHealth;
