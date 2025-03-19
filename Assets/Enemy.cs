@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -7,6 +8,12 @@ public class Enemy : MonoBehaviour
     public float jumpForce = 8f; 
     public LayerMask groundLayer;
     public int damage = 1;
+
+    public int maxHealth = 3;
+    private int currentHealth;
+    private SpriteRenderer spriteRenderer;
+    private Color ogColor;
+
     private Rigidbody2D rb;
     private bool isGrounded;
     private bool shouldJump;
@@ -15,6 +22,10 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        currentHealth = maxHealth;
+        ogColor = spriteRenderer.color;
+
     }
 
     void Update()
@@ -52,5 +63,25 @@ public class Enemy : MonoBehaviour
             rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             shouldJump = false; 
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        StartCoroutine(FlashWhite());
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    private IEnumerator FlashWhite()
+    {
+        spriteRenderer.color = Color.white;
+        yield return new WaitForSeconds(0.2f);
+        spriteRenderer.color = ogColor;
+    }
+    void Die()
+    {
+        Destroy(gameObject);
     }
 }
