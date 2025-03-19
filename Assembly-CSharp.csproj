@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\Login.cs" />
     <Compile Include="Assets\HoldToLoadLevel.cs" />
     <Compile Include="Assets\Bullet.cs" />
     <Compile Include="Assets\Enemy.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="Assets\HealthUI.cs" />
     <Compile Include="Assets\Collector.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Resgister.cs" />
+    <Compile Include="Assets\PlayerMovementLoby.cs" />
     <Compile Include="Assets\PlayerShoot.cs" />
     <Compile Include="Assets\ObjectSpawner.cs" />
     <Compile Include="Assets\Scripts\Gem.cs" />
@@ -97,6 +100,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\credentials.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
