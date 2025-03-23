@@ -38,12 +38,22 @@ public class ObjectSpawner : MonoBehaviour
             StartCoroutine(SpawningObjectsIfNeeded());
         }
     }
-    private  void LevelChange()
+   private void LevelChange()
+{
+    GameObject ground = GameObject.Find("Ground");
+
+    if (ground != null && ground.GetComponent<Tilemap>() != null)
     {
-        tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+        tilemap = ground.GetComponent<Tilemap>();
         GatherValidPositions();
         DestroyAllSpawnedObjects();
     }
+    else
+    {
+        Debug.LogWarning("No se encontró el GameObject 'Ground' o no tiene Tilemap.");
+    }
+}
+
     private int ActiveObjectCount()
     {
         spawnObjects.RemoveAll(item => item == null);

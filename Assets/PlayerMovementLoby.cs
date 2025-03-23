@@ -5,7 +5,7 @@ public class PlayerMovementLoby : MonoBehaviour
     public float moveSpeed = 5f; 
     public Animator animator;    
     public float stopDistance = 0.1f; 
-    public Vector3 playerScale = new Vector3(1.5f, 1.5f, 1.5f); 
+    public Vector3 playerScale = new Vector3(1f, 1f, 1f); 
 
     private float minX, maxX; 
     private int lastDirection = 1; 

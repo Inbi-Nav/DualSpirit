@@ -73,6 +73,7 @@
     <Compile Include="Assets\StartMenuController.cs" />
     <Compile Include="Assets\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\IItem.cs" />
+    <Compile Include="Assets\Scripts\UserManager.cs" />
     <Compile Include="Assets\HealthUI.cs" />
     <Compile Include="Assets\Collector.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
