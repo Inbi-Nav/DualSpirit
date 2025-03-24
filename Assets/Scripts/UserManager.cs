@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class UserManager : MonoBehaviour
 {
-    public string backendURL = "http://192.168.1.135:3000"; // ✅ Dirección correcta
+public string backendURL = "http://192.168.16.239:3000";
 
     public void Register(string username, string password)
     {
@@ -21,7 +21,7 @@ public class UserManager : MonoBehaviour
     IEnumerator RegisterUser(string username, string password)
     {
         string jsonData = JsonUtility.ToJson(new UserData(username, password));
-        UnityWebRequest www = new UnityWebRequest(backendURL + "/users/unity-register", "POST"); // 👈 Nueva ruta
+        UnityWebRequest www = new UnityWebRequest(backendURL + "/users/unity-register", "POST");
 
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
         www.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -32,11 +32,11 @@ public class UserManager : MonoBehaviour
 
         if (www.result == UnityWebRequest.Result.Success)
         {
-            Debug.Log("✅ User registered: " + www.downloadHandler.text);
+            Debug.Log("jugador registrado: " + www.downloadHandler.text);
         }
         else
         {
-            Debug.Log("❌ Register Error: " + www.error);
+            Debug.Log(" Error al registrar: " + www.error);
             Debug.Log(www.downloadHandler.text);
         }
     }
@@ -55,18 +55,17 @@ public class UserManager : MonoBehaviour
 
         if (www.result == UnityWebRequest.Result.Success)
         {
-            Debug.Log("✅ Login success: " + www.downloadHandler.text);
 
             UserResponse response = JsonUtility.FromJson<UserResponse>(www.downloadHandler.text);
             PlayerPrefs.SetInt("userId", response.userId);
             PlayerPrefs.Save();
 
             Debug.Log("📦 userId saved: " + response.userId);
-            SceneManager.LoadScene("SampleScene"); // ✅ Redirección tras login
+            SceneManager.LoadScene("SampleScene"); 
         }
         else
         {
-            Debug.Log("❌ Login failed: " + www.error);
+            Debug.Log("Login incorrecto: " + www.error);
             Debug.Log(www.downloadHandler.text);
         }
     }

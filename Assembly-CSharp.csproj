@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Login.cs" />
     <Compile Include="Assets\HoldToLoadLevel.cs" />
     <Compile Include="Assets\Bullet.cs" />
+    <Compile Include="Assets\Scripts\LootItem.cs" />
     <Compile Include="Assets\Enemy.cs" />
     <Compile Include="Assets\StartMenuController.cs" />
     <Compile Include="Assets\PlayerHealth.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Assets\PlayerShoot.cs" />
     <Compile Include="Assets\ObjectSpawner.cs" />
     <Compile Include="Assets\Scripts\Gem.cs" />
+    <Compile Include="Assets\Scripts\HealthItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

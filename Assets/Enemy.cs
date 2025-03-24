@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -18,6 +19,8 @@ public class Enemy : MonoBehaviour
     private bool isGrounded;
     private bool shouldJump;
 
+    [Header("Loot")]
+    public List<LootItem> lootTable = new List<LootItem>();
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -82,6 +85,25 @@ public class Enemy : MonoBehaviour
     }
     void Die()
     {
+         foreach (LootItem lootItem in lootTable)
+         {
+             if (Random.Range(0, 100) <= lootItem.dropChance)
+             {
+                 LootInstantiate(lootItem.itemPrefab);
+             }
+             break;
+         }
+
         Destroy(gameObject);
     }
+
+    void LootInstantiate(GameObject loot)
+    {
+        if (loot)
+        {
+            GameObject droppedLoot = Instantiate(loot, transform.position, Quaternion.identity);
+            droppedLoot.GetComponent<SpriteRenderer>().color = Color.red;     
+        }
+    }
 }
+

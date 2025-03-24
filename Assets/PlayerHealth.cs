@@ -12,12 +12,12 @@ private SpriteRenderer spriteRenderer;
 
 public static event Action OnPlayedDied;
 
-// Start is called before the first frame update
 void Start()
 {
     ResetHealth();
     spriteRenderer = GetComponent<SpriteRenderer>();
     GameController.OnReset += ResetHealth;
+    HealthItem.OnHeatlhCollect += Heal;
 }
 
 private void OnTriggerEnter2D(Collider2D collision)
@@ -27,6 +27,16 @@ private void OnTriggerEnter2D(Collider2D collision)
     {
         TakeDamage(enemy.damage);
     }
+}
+
+void Heal(int amount)
+{
+    currentHealth += amount;
+    if (currentHealth > maxHealth)
+    {
+        currentHealth = maxHealth;
+    }
+    healthUI.UpdateHearts(currentHealth);
 }
     void ResetHealth()
     {
@@ -42,7 +52,6 @@ private void OnTriggerEnter2D(Collider2D collision)
 
     if (currentHealth <= 0)
     {
-        // player dead! -- call game over, animation, etc
         OnPlayedDied.Invoke();
     }
 }

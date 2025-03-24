@@ -152,21 +152,45 @@ public class ObjectSpawner : MonoBehaviour
         spawnObjects.Clear();
     }
 
-    private void GatherValidPositions()
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        foreach (var pos in validSpawnPositions)
+        {
+            Gizmos.DrawWireSphere(pos, 0.15f);
+        }
+    }
+   private void GatherValidPositions()
     {
         validSpawnPositions.Clear();
-        BoundsInt boundsInt = tilemap.cellBounds;
-        TileBase[] allTiles = tilemap.GetTilesBlock(boundsInt);
-        Vector3 start = tilemap.CellToWorld(new Vector3Int(boundsInt.xMin, boundsInt.yMin, 0));
-        for (int x = 0; x < boundsInt.size.x; x++)
+
+        BoundsInt bounds = tilemap.cellBounds;
+        TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
+
+        for (int x = 0; x < bounds.size.x; x++)
         {
-            for (int y = 0; y < boundsInt.size.y; y++)
+            for (int y = 0; y < bounds.size.y; y++)
             {
-                TileBase tile = allTiles[x + y * boundsInt.size.x];
-                if (tile != null)
+                int tileIndex = x + y * bounds.size.x;
+                TileBase currentTile = allTiles[tileIndex];
+
+                if (currentTile != null)
                 {
-                    Vector3 place = start + new Vector3(x + 7f, y + 9f, 0);
-                    validSpawnPositions.Add(place);
+                    Vector3Int cell = new Vector3Int(bounds.xMin + x, bounds.yMin + y, 0);
+                    Vector3Int cellAbove = new Vector3Int(cell.x, cell.y + 1, 0);
+                    Vector3Int cellBelow = new Vector3Int(cell.x, cell.y - 1, 0);
+
+                    bool isAirAbove = !tilemap.HasTile(cellAbove);
+                    bool isAirBelow = !tilemap.HasTile(cellBelow);
+
+                    if (isAirAbove && isAirBelow)
+                    {
+                        Vector3 cellWorldPos = tilemap.CellToWorld(cell);
+                        float offsetY = tilemap.cellSize.y * 0.5f + 0.5f; 
+
+                        Vector3 spawnPos = cellWorldPos + new Vector3(0.5f, offsetY, 0);
+                        validSpawnPositions.Add(spawnPos);
+                    }
                 }
             }
         }
