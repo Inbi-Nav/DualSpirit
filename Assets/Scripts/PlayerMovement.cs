@@ -9,10 +9,13 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     bool isFacingRight = true;
     public ParticleSystem smokeFX;
+    public ParticleSystem speedFX;
+
 
     [Header("Movement")]
     public float moveSpeed = 5f;
     float horizontalMovement;
+    float speedBoost = 1f;
 
     [Header("Dashing")]
     public float dashSpeed = 20f;
@@ -56,6 +59,20 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         trailRenderer = GetComponent<TrailRenderer>();
+        SpeedItem.OnSpeedBoost += StartSpeedBoost;
+    }
+    void StartSpeedBoost(float boost)
+    {
+        StartCoroutine(SpeedBoostCoroutine(boost));
+    }
+    private IEnumerator SpeedBoostCoroutine(float boost)
+    {
+        speedBoost = boost;
+        speedFX.Play();
+        yield return new WaitForSeconds(2f);
+        speedBoost = 1f;
+        speedFX.Stop();
+
     }
 
     void Update()
@@ -73,8 +90,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isWallJumping)
         {
-            rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed * speedBoost, rb.linearVelocity.y);
             Flip();
+             
         }
     }
 
@@ -225,6 +243,8 @@ public class PlayerMovement : MonoBehaviour
             Vector3 ls = transform.localScale;
             ls.x *= -1f;
             transform.localScale = ls;
+            speedFX.transform.localScale = ls;
+
 
             if (rb.linearVelocity.y == 0)
             {
