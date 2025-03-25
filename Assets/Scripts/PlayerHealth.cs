@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth = 3;
+    public int maxHealth = 5;
   public HealthUI healthUI;
 private int currentHealth;
 private SpriteRenderer spriteRenderer;
@@ -26,6 +26,11 @@ private void OnTriggerEnter2D(Collider2D collision)
     if (enemy)
     {
         TakeDamage(enemy.damage);
+    }
+    Trap trap = collision.GetComponent<Trap>();
+    if (trap && trap.damage > 0)
+    {
+        TakeDamage(trap.damage);
     }
 }
 

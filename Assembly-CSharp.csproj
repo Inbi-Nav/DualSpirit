@@ -67,22 +67,27 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\Login.cs" />
-    <Compile Include="Assets\HoldToLoadLevel.cs" />
-    <Compile Include="Assets\Bullet.cs" />
+    <Compile Include="Assets\Scripts\StartMenuController.cs" />
+    <Compile Include="Assets\Scripts\HealthUI.cs" />
+    <Compile Include="Assets\Scripts\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\FallingPlatform.cs" />
+    <Compile Include="Assets\Scripts\Enemy.cs" />
+    <Compile Include="Assets\Scripts\PlayerShoot.cs" />
     <Compile Include="Assets\Scripts\LootItem.cs" />
-    <Compile Include="Assets\Enemy.cs" />
-    <Compile Include="Assets\StartMenuController.cs" />
-    <Compile Include="Assets\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\PlayerMovementLoby.cs" />
+    <Compile Include="Assets\Scripts\Trap.cs" />
+    <Compile Include="Assets\Scripts\SpeedItem.cs" />
+    <Compile Include="Assets\Scripts\ObjectSpawner.cs" />
+    <Compile Include="Assets\Scripts\Collector.cs" />
     <Compile Include="Assets\Scripts\IItem.cs" />
     <Compile Include="Assets\Scripts\UserManager.cs" />
-    <Compile Include="Assets\HealthUI.cs" />
-    <Compile Include="Assets\Collector.cs" />
+    <Compile Include="Assets\Scripts\SecretArea.cs" />
+    <Compile Include="Assets\Scripts\Bullet.cs" />
+    <Compile Include="Assets\Scripts\HoldToLoadLevel.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Resgister.cs" />
-    <Compile Include="Assets\PlayerMovementLoby.cs" />
-    <Compile Include="Assets\PlayerShoot.cs" />
-    <Compile Include="Assets\ObjectSpawner.cs" />
     <Compile Include="Assets\Scripts\Gem.cs" />
+    <Compile Include="Assets\Scripts\MovingPlatform.cs" />
     <Compile Include="Assets\Scripts\HealthItem.cs" />
   </ItemGroup>
   <ItemGroup>
