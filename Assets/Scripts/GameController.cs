@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
@@ -36,6 +38,13 @@ public class GameController : MonoBehaviour
         survivedText.text = "YOU SURVIVED " + survivedLevelsCount + " LEVEL";
         if (survivedLevelsCount != 1) survivedText.text += "S";
         Time.timeScale = 0;
+        int userId = PlayerPrefs.GetInt("userId", -1);
+    if (userId != -1)
+    {
+        StartCoroutine(RegistrarPartida(userId));
+    }
+
+    Time.timeScale = 0;
     }
 
     public void ResetGame () 
@@ -77,7 +86,38 @@ public class GameController : MonoBehaviour
     {
         int nextLevelIndex = (currentLevelIndex == levels.Count - 1) ? 0 : currentLevelIndex + 1;
         Loadlevel(nextLevelIndex, true);
+
+         if (currentLevelIndex == levels.Count - 1)
+    {
+        // Se completaron los 3 niveles
+        int userId = PlayerPrefs.GetInt("userId", -1);
+        if (userId != -1)
+        {
+            StartCoroutine(RegistrarPartida(userId));
+        }
     }
+
+    }
+
+    IEnumerator RegistrarPartida(int userId)
+{
+    string url = $"http://localhost:3000/users/{userId}/gamesPlayed";
+    UnityWebRequest www = UnityWebRequest.Put(url, new byte[0]); 
+    www.method = "PATCH";
+    www.SetRequestHeader("Content-Type", "application/json");
+
+    yield return www.SendWebRequest();
+
+    if (www.result == UnityWebRequest.Result.Success)
+    {
+        Debug.Log("Partida registrada");
+    }
+    else
+    {
+        Debug.LogError("Error al registrar partida: " + www.error);
+    }
+}
+
 }
 
 
