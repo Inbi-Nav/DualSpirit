@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class UserManager : MonoBehaviour
 {
-public string backendURL = "http:/localhost:3000";
+public string backendURL = "http://localhost:3000";
 
     public void Register(string username, string password)
     {

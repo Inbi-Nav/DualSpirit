@@ -1052,7 +1052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276fcff848242494fa33ac64c1525494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backendURL: http:/localhost:3000
+  backendURL: http://localhost:3000
 --- !u!1 &799272386
 GameObject:
   m_ObjectHideFlags: 0

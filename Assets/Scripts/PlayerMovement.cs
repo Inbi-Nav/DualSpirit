@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Networking;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -56,11 +57,36 @@ public class PlayerMovement : MonoBehaviour
     float wallJumpTimer;
     public Vector2 wallJumpPower = new Vector2(5f, 10f);
 
-    private void Start()
+     void Start()
     {
         trailRenderer = GetComponent<TrailRenderer>();
         SpeedItem.OnSpeedBoost += StartSpeedBoost;
+        StartCoroutine(LoadSpeedFromBackend());
     }
+
+    IEnumerator LoadSpeedFromBackend()
+    {
+        string url = "http://localhost:3000/game/settings";
+
+        using (UnityWebRequest www = UnityWebRequest.Get(url))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                GameSettingsData settings = JsonUtility.FromJson<GameSettingsData>(www.downloadHandler.text);
+                moveSpeed = settings.moveSpeed;
+            }
+           
+        }
+    }
+
+    [System.Serializable]
+    public class GameSettingsData
+    {
+        public float moveSpeed;
+    }
+
     void StartSpeedBoost(float boost)
     {
         StartCoroutine(SpeedBoostCoroutine(boost));
