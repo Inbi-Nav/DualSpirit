@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
     public ParticleSystem smokeFX;
     public ParticleSystem speedFX;
 
-
     [Header("Movement")]
     public float moveSpeed = 5f;
     float horizontalMovement;
@@ -57,11 +56,12 @@ public class PlayerMovement : MonoBehaviour
     float wallJumpTimer;
     public Vector2 wallJumpPower = new Vector2(5f, 10f);
 
-     void Start()
+    void Start()
     {
         trailRenderer = GetComponent<TrailRenderer>();
         SpeedItem.OnSpeedBoost += StartSpeedBoost;
         StartCoroutine(LoadSpeedFromBackend());
+        jumpsRemaining = maxJumps;
     }
 
     IEnumerator LoadSpeedFromBackend()
@@ -77,7 +77,6 @@ public class PlayerMovement : MonoBehaviour
                 GameSettingsData settings = JsonUtility.FromJson<GameSettingsData>(www.downloadHandler.text);
                 moveSpeed = settings.moveSpeed;
             }
-           
         }
     }
 
@@ -91,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
     {
         StartCoroutine(SpeedBoostCoroutine(boost));
     }
+
     private IEnumerator SpeedBoostCoroutine(float boost)
     {
         speedBoost = boost;
@@ -98,7 +98,6 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(2f);
         speedBoost = 1f;
         speedFX.Stop();
-
     }
 
     void Update()
@@ -109,7 +108,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (isDashing) return;
 
-        GroundCheck();
         ProcessGravity();
         ProcessWallSlide();
         ProcessWallJump();
@@ -118,8 +116,12 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed * speedBoost, rb.linearVelocity.y);
             Flip();
-             
         }
+    }
+
+    void FixedUpdate()
+    {
+        GroundCheck();
     }
 
     private void ProcessGravity()
@@ -198,7 +200,6 @@ public class PlayerMovement : MonoBehaviour
         trailRenderer.emitting = false;
         Physics2D.IgnoreLayerCollision(7, 8, false);
 
-
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
@@ -207,6 +208,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
+            if (jumpsRemaining <= 0 && !isGrounded)
+            {
+                jumpsRemaining = 1;
+            }
+
             if (wallJumpTimer > 0f)
             {
                 isWallJumping = true;
@@ -247,7 +253,7 @@ public class PlayerMovement : MonoBehaviour
     private void GroundCheck()
     {
         Collider2D hit = Physics2D.OverlapCircle(groundCheckPos.position, 0.1f, groundLayer);
-
+        bool wasGrounded = isGrounded;
         isGrounded = hit != null;
 
         if (isGrounded && rb.linearVelocity.y <= 0.1f)
@@ -270,7 +276,6 @@ public class PlayerMovement : MonoBehaviour
             ls.x *= -1f;
             transform.localScale = ls;
             speedFX.transform.localScale = ls;
-
 
             if (rb.linearVelocity.y == 0)
             {

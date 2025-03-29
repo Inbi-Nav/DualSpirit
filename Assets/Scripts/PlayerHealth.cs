@@ -65,6 +65,6 @@ private IEnumerator FlashRed()
 {
     spriteRenderer.color = Color.red;
     yield return new WaitForSeconds(0.2f);
-    spriteRenderer.color = Color.white;
+    spriteRenderer.color = Color.black;
 }
 }
