@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\SpeedItem.cs" />
     <Compile Include="Assets\Scripts\ObjectSpawner.cs" />
     <Compile Include="Assets\Scripts\Collector.cs" />
+    <Compile Include="Assets\Scripts\PlayerProfileUI.cs" />
     <Compile Include="Assets\Scripts\IItem.cs" />
     <Compile Include="Assets\Scripts\UserManager.cs" />
     <Compile Include="Assets\Scripts\SecretArea.cs" />

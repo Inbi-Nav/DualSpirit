@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
 {
-    public GameObject[] objectPrefabs; // Solo debe tener Enemy (índice 0)
+    public GameObject[] objectPrefabs; 
     public int maxObjects = 5;
     public float spawnInterval = 0.5f;
 
