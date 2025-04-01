@@ -114,7 +114,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator RegistrarPartida(int userId)
     {
-        string url = $"http://localhost:3000/users/{userId}/gamesPlayed";
+        string url = $"http://dam.inspedralbes.cat:27775/users/{userId}/gamesPlayed";
         UnityWebRequest www = UnityWebRequest.Put(url, new byte[0]);
         www.method = "PATCH";
         www.SetRequestHeader("Content-Type", "application/json");

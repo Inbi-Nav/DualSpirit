@@ -89,6 +89,7 @@
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\MusicManager.cs" />
     <Compile Include="Assets\Scripts\Resgister.cs" />
+    <Compile Include="Assets\Scripts\BackendTest.cs" />
     <Compile Include="Assets\Scripts\Gem.cs" />
     <Compile Include="Assets\Scripts\MovingPlatform.cs" />
     <Compile Include="Assets\Scripts\SoundEffectManager.cs" />

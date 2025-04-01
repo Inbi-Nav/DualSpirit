@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class UserManager : MonoBehaviour
 {
-public string backendURL = "http://localhost:3000";
+    public string backendURL = "http://dam.inspedralbes.cat:27775";
 
     public void Register(string username, string password)
     {
@@ -21,32 +21,22 @@ public string backendURL = "http://localhost:3000";
     IEnumerator RegisterUser(string username, string password)
     {
         string jsonData = JsonUtility.ToJson(new UserData(username, password));
-        UnityWebRequest www = new UnityWebRequest(backendURL + "/users/unity-register", "POST");
-
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+
+        UnityWebRequest www = new UnityWebRequest(backendURL + "/users/unity-register", "POST");
         www.uploadHandler = new UploadHandlerRaw(bodyRaw);
         www.downloadHandler = new DownloadHandlerBuffer();
         www.SetRequestHeader("Content-Type", "application/json");
 
         yield return www.SendWebRequest();
-
-        if (www.result == UnityWebRequest.Result.Success)
-        {
-            Debug.Log("jugador registrado: " + www.downloadHandler.text);
-        }
-        else
-        {
-            Debug.Log(" Error al registrar: " + www.error);
-            Debug.Log(www.downloadHandler.text);
-        }
     }
 
     IEnumerator LoginUser(string username, string password)
     {
         string jsonData = JsonUtility.ToJson(new UserData(username, password));
-        UnityWebRequest www = new UnityWebRequest(backendURL + "/users/login", "POST");
-
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+
+        UnityWebRequest www = new UnityWebRequest(backendURL + "/users/login", "POST");
         www.uploadHandler = new UploadHandlerRaw(bodyRaw);
         www.downloadHandler = new DownloadHandlerBuffer();
         www.SetRequestHeader("Content-Type", "application/json");
@@ -55,18 +45,14 @@ public string backendURL = "http://localhost:3000";
 
         if (www.result == UnityWebRequest.Result.Success)
         {
-
-            UserResponse response = JsonUtility.FromJson<UserResponse>(www.downloadHandler.text);
-            PlayerPrefs.SetInt("userId", response.userId);
-            PlayerPrefs.Save();
-
-            Debug.Log("📦 userId saved: " + response.userId);
-            SceneManager.LoadScene("SampleScene"); 
-        }
-        else
-        {
-            Debug.Log("Login incorrecto: " + www.error);
-            Debug.Log(www.downloadHandler.text);
+            try
+            {
+                UserResponse response = JsonUtility.FromJson<UserResponse>(www.downloadHandler.text);
+                PlayerPrefs.SetInt("userId", response.userId);
+                PlayerPrefs.Save();
+                SceneManager.LoadScene("SampleScene");
+            }
+            catch { }
         }
     }
 

@@ -2655,7 +2655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &52481197
 Transform:
   m_ObjectHideFlags: 0
@@ -9971,11 +9971,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectPrefabs:
+  - {fileID: 845378716161083488, guid: cbb40067dfeaf1041a461a3ded9934c3, type: 3}
+  - {fileID: 958184364972559984, guid: aaf60cd960a27de4790caba87f6fc54e, type: 3}
   - {fileID: 7899361706323347481, guid: 7bc7abe1a5fb7964e9ed336671d00af6, type: 3}
-  maxObjects: 5
-  spawnInterval: 0.5
-  spawnAreaSize: {x: 2987, y: 1080}
-  spawnOrigin: {x: 0, y: 0}
+  bigGemChance: 0.2
+  maxGems: 8
+  maxEnemies: 3
+  gemSpawnInterval: 1
+  enemySpawnInterval: 5
+  gemLifetime: 10
+  spawnOrigin: {x: -10, y: 0}
+  spawnAreaSize: {x: 100, y: 5}
 --- !u!1 &988524133
 GameObject:
   m_ObjectHideFlags: 0
@@ -16361,7 +16367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1710294804
 Transform:
   m_ObjectHideFlags: 0
@@ -25286,7 +25292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2132852943
 Transform:
   m_ObjectHideFlags: 0
@@ -25452,8 +25458,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8802997737462013081}
     - target: {fileID: 5260665374368986886, guid: 7bc7abe1a5fb7964e9ed336671d00af6, type: 3}
+      propertyPath: jumpForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5260665374368986886, guid: 7bc7abe1a5fb7964e9ed336671d00af6, type: 3}
       propertyPath: maxHealth
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5260665374368986886, guid: 7bc7abe1a5fb7964e9ed336671d00af6, type: 3}
+      propertyPath: chaseSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5260665374368986886, guid: 7bc7abe1a5fb7964e9ed336671d00af6, type: 3}
       propertyPath: lootTable.Array.size

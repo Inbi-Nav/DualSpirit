@@ -4,89 +4,120 @@ using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
 {
-    public GameObject[] objectPrefabs; 
-    public int maxObjects = 5;
-    public float spawnInterval = 0.5f;
+    public enum ObjectType { SmallGem, BigGem, Enemy }
 
-    [Header("Spawn Area")]
-    public Vector2 spawnAreaSize = new Vector2(2987f, 1080f);
-    public Vector2 spawnOrigin = new Vector2(0f, 0f);
-    private Vector2 spawnAreaCenter;
+    [Header("Prefabs")]
+    public GameObject[] objectPrefabs;
 
-    private List<GameObject> spawnObjects = new List<GameObject>();
-    private bool isSpawning = false;
+    [Header("Probabilidades de Gemas")]
+    [Range(0f, 1f)] public float bigGemChance = 0.2f;
+
+    [Header("Configuración")]
+    public int maxGems = 15;
+    public int maxEnemies = 3;
+    public float gemSpawnInterval = 0.2f;
+    public float enemySpawnInterval = 5f;
+    public float gemLifetime = 10f;
+
+    [Header("Área de Spawn")]
+    public Vector2 spawnOrigin = new Vector2(-10, 0);
+    public Vector2 spawnAreaSize = new Vector2(20, 5);
+
+    private List<GameObject> gemObjects = new List<GameObject>();
+    private List<GameObject> enemyObjects = new List<GameObject>();
 
     void Start()
     {
-        spawnAreaCenter = spawnOrigin + (spawnAreaSize / 2f);
-        StartCoroutine(SpawningObjectsIfNeeded());
+        for (int i = 0; i < maxGems; i++)
+        {
+            SpawnGemInstant();
+        }
+
+        StartCoroutine(GemSpawner());
+        StartCoroutine(EnemySpawner());
     }
 
     void Update()
     {
-        if (!isSpawning && ActiveObjectCount() < maxObjects)
+        gemObjects.RemoveAll(item => item == null);
+        enemyObjects.RemoveAll(item => item == null);
+    }
+
+    private IEnumerator GemSpawner()
+    {
+        while (true)
         {
-            StartCoroutine(SpawningObjectsIfNeeded());
+            yield return new WaitForSeconds(gemSpawnInterval);
+
+            if (gemObjects.Count >= maxGems) continue;
+
+            SpawnGemInstant();
         }
     }
 
-    private int ActiveObjectCount()
+    private void SpawnGemInstant()
     {
-        spawnObjects.RemoveAll(item => item == null);
-        return spawnObjects.Count;
+        Vector3 spawnPos = GetRandomSpawnPosition();
+        if (PositionHasObject(spawnPos)) return;
+
+        ObjectType gemType = (Random.value <= bigGemChance) ? ObjectType.BigGem : ObjectType.SmallGem;
+        GameObject gem = Instantiate(objectPrefabs[(int)gemType], spawnPos, Quaternion.identity);
+        gemObjects.Add(gem);
+
+        StartCoroutine(DestroyAfterTime(gem, gemLifetime));
     }
 
-    private IEnumerator SpawningObjectsIfNeeded()
+    private IEnumerator EnemySpawner()
     {
-        isSpawning = true;
-
-        while (ActiveObjectCount() < maxObjects)
+        while (true)
         {
-            SpawnObject();
-            yield return new WaitForSeconds(spawnInterval);
-        }
+            yield return new WaitForSeconds(enemySpawnInterval);
 
-        isSpawning = false;
-    }
+            if (enemyObjects.Count >= maxEnemies) continue;
 
-    private bool PositionHasObject(Vector3 positionToCheck)
-    {
-        return spawnObjects.Exists(obj => obj != null && Vector3.Distance(obj.transform.position, positionToCheck) < 1f);
-    }
+            Vector3 spawnPos = GetRandomSpawnPosition();
+            if (PositionHasObject(spawnPos)) continue;
 
-    private void SpawnObject()
-    {
-        Vector3 spawnPosition = Vector3.zero;
-        bool validPositionFound = false;
-        int attempts = 0;
-        int maxAttempts = 10;
-
-        while (!validPositionFound && attempts < maxAttempts)
-        {
-            float randomX = Random.Range(spawnAreaCenter.x - spawnAreaSize.x / 2, spawnAreaCenter.x + spawnAreaSize.x / 2);
-            float randomY = Random.Range(spawnAreaCenter.y - spawnAreaSize.y / 2, spawnAreaCenter.y + spawnAreaSize.y / 2);
-            Vector3 potentialPosition = new Vector3(randomX, randomY, 0);
-
-            if (!PositionHasObject(potentialPosition))
-            {
-                spawnPosition = potentialPosition;
-                validPositionFound = true;
-            }
-
-            attempts++;
-        }
-
-        if (validPositionFound)
-        {
-            GameObject enemy = Instantiate(objectPrefabs[0], spawnPosition, Quaternion.identity);
-            spawnObjects.Add(enemy);
+            GameObject enemy = Instantiate(objectPrefabs[(int)ObjectType.Enemy], spawnPos, Quaternion.identity);
+            enemyObjects.Add(enemy);
         }
     }
 
-    private void OnDrawGizmos()
+    private Vector3 GetRandomSpawnPosition()
     {
-        Gizmos.color = Color.green;
-        Vector2 center = spawnOrigin + (spawnAreaSize / 2f);
-        Gizmos.DrawWireCube(center, spawnAreaSize);
+        float x = Random.Range(spawnOrigin.x, spawnOrigin.x + spawnAreaSize.x);
+        float y = Random.Range(spawnOrigin.y, spawnOrigin.y + spawnAreaSize.y);
+        return new Vector3(x, y, 0);
+    }
+
+    private bool PositionHasObject(Vector3 position)
+    {
+        foreach (GameObject obj in gemObjects)
+        {
+            if (obj != null && Vector3.Distance(obj.transform.position, position) < 1f)
+                return true;
+        }
+        foreach (GameObject obj in enemyObjects)
+        {
+            if (obj != null && Vector3.Distance(obj.transform.position, position) < 1f)
+                return true;
+        }
+        return false;
+    }
+
+    private IEnumerator DestroyAfterTime(GameObject obj, float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (obj != null)
+        {
+            gemObjects.Remove(obj);
+            Destroy(obj);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireCube(spawnOrigin + spawnAreaSize / 2f, spawnAreaSize);
     }
 }
