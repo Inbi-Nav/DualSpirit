@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator LoadSpeedFromBackend()
     {
-        string url = "http://localhost:3000/game/settings";
+        string url = "http://dam.inspedralbes.cat:27775/game/settings";
 
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {

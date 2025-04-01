@@ -25,7 +25,7 @@ public class PlayerProfileUI : MonoBehaviour
 
     IEnumerator CargarDatosJugador(int id)
     {
-        string url = $"http://localhost:3000/users/{id}";
+        string url = $"http://dam.inspedralbes.cat:27775/users/{id}";
         UnityWebRequest www = UnityWebRequest.Get(url);
         yield return www.SendWebRequest();
 

@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      logoutbutton 1_0: -8608533155642892061
+      logoutbutton 1_1: -6221552870038343818
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
