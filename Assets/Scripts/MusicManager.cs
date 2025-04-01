@@ -38,12 +38,7 @@ public class MusicManager : MonoBehaviour
 {
     if (backgroundMusic != null)
     {
-        Debug.Log("Background music is set.");
         PlayBackgroundMusic(false, backgroundMusic);
-    }
-    else
-    {
-        Debug.Log("No background music assigned.");
     }
 
     musicSlider.onValueChanged.AddListener(delegate { SetVolume(musicSlider.value); });
@@ -60,7 +55,6 @@ public class MusicManager : MonoBehaviour
     if (audioClip != null)
     {
         audioSource.clip = audioClip;
-        Debug.Log("Reproduciendo música de fondo: " + audioSource.clip.name); // Verifica si se asigna correctamente
     }
 
     if (audioSource.clip != null)
@@ -71,10 +65,7 @@ public class MusicManager : MonoBehaviour
         }
         audioSource.Play();
     }
-    else
-    {
-        Debug.LogWarning("No se ha asignado un clip de audio al AudioSource.");
-    }
+
 }
 
 
