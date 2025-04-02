@@ -407,8 +407,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 753e35b5f36ac5a4b8e9a07ad190f12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usernameText: {fileID: 0}
-  rankText: {fileID: 0}
+  usernameText: {fileID: 881143787}
+  rankText: {fileID: 1308506581}
 --- !u!1 &394347997
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,6 +37,7 @@ public class ObjectSpawner : MonoBehaviour
         StartCoroutine(EnemySpawner());
     }
 
+
     void Update()
     {
         gemObjects.RemoveAll(item => item == null);
@@ -74,7 +75,7 @@ public class ObjectSpawner : MonoBehaviour
             yield return new WaitForSeconds(enemySpawnInterval);
 
             if (enemyObjects.Count >= maxEnemies) continue;
-
+            SpawnEnemy();
             Vector3 spawnPos = GetRandomSpawnPosition();
             if (PositionHasObject(spawnPos)) continue;
 
@@ -82,6 +83,16 @@ public class ObjectSpawner : MonoBehaviour
             enemyObjects.Add(enemy);
         }
     }
+    private void SpawnEnemy()
+{
+    Vector3 spawnPos = GetRandomSpawnPosition();
+    Debug.Log("Intentando spawnear enemigo en: " + spawnPos);
+
+    GameObject enemy = Instantiate(objectPrefabs[(int)ObjectType.Enemy], spawnPos, Quaternion.identity);
+    enemyObjects.Add(enemy);
+    Debug.Log("¡Enemigo instanciado!");
+}
+
 
     private Vector3 GetRandomSpawnPosition()
     {

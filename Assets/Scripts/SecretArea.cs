@@ -16,29 +16,26 @@ public class SecretArea : MonoBehaviour
         hiddenColour = spriteRenderer.color;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+   private void OnTriggerEnter2D(Collider2D collision)
+{
+    if (collision.gameObject.CompareTag("Player") && gameObject.activeInHierarchy)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (currentCoroutine != null)
-            {
-                StopCoroutine(currentCoroutine);
-            }
-            currentCoroutine = StartCoroutine(FadeSprite(true));
-        }
+        if (currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
+        currentCoroutine = StartCoroutine(FadeSprite(true));
     }
+}
 
-    void OnTriggerExit2D(Collider2D collision)
-      {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (currentCoroutine != null)
-            {
-                StopCoroutine(currentCoroutine);
-            }
-            currentCoroutine = StartCoroutine(FadeSprite(false));
-        }
+private void OnTriggerExit2D(Collider2D collision)
+{
+    if (collision.gameObject.CompareTag("Player") && gameObject.activeInHierarchy)
+    {
+        if (currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
+        currentCoroutine = StartCoroutine(FadeSprite(false));
     }
+}
+
 
     private IEnumerator FadeSprite(bool fadeOut)
     {

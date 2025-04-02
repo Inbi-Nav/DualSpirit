@@ -28,7 +28,17 @@ public class UserManager : MonoBehaviour
         www.downloadHandler = new DownloadHandlerBuffer();
         www.SetRequestHeader("Content-Type", "application/json");
 
+        Debug.Log($"Intentando registrar usuario: {username}");
         yield return www.SendWebRequest();
+
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log(" Usuario registrado correctamente.");
+        }
+        else
+        {
+            Debug.LogError($"Error al registrar: {www.error} | Respuesta: {www.downloadHandler.text}");
+        }
     }
 
     IEnumerator LoginUser(string username, string password)
@@ -41,6 +51,7 @@ public class UserManager : MonoBehaviour
         www.downloadHandler = new DownloadHandlerBuffer();
         www.SetRequestHeader("Content-Type", "application/json");
 
+        Debug.Log($"Intentando iniciar sesión: {username}");
         yield return www.SendWebRequest();
 
         if (www.result == UnityWebRequest.Result.Success)
@@ -50,9 +61,17 @@ public class UserManager : MonoBehaviour
                 UserResponse response = JsonUtility.FromJson<UserResponse>(www.downloadHandler.text);
                 PlayerPrefs.SetInt("userId", response.userId);
                 PlayerPrefs.Save();
+                Debug.Log($" Login correcto. userId = {response.userId}");
                 SceneManager.LoadScene("SampleScene");
             }
-            catch { }
+            catch
+            {
+                Debug.LogError(" Error al procesar respuesta del servidor.");
+            }
+        }
+        else
+        {
+            Debug.LogError($" Error en login: {www.error} | Respuesta: {www.downloadHandler.text}");
         }
     }
 
