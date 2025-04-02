@@ -13,9 +13,7 @@ public class MusicManager : MonoBehaviour
         get
         {
             if (instance == null)
-            {
                 instance = FindObjectOfType<MusicManager>();
-            }
             return instance;
         }
     }
@@ -25,8 +23,12 @@ public class MusicManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            audioSource = GetComponent<AudioSource>();
             DontDestroyOnLoad(gameObject);
+
+            // Asegura que el audio source existe
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+                audioSource = gameObject.AddComponent<AudioSource>();
         }
         else
         {
@@ -34,43 +36,39 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-   void Start()
-{
-    if (backgroundMusic != null)
+    void Start()
     {
-        PlayBackgroundMusic(false, backgroundMusic);
+        if (backgroundMusic != null)
+            PlayBackgroundMusic(false, backgroundMusic);
+
+        if (musicSlider != null)
+            musicSlider.onValueChanged.AddListener(delegate { SetVolume(musicSlider.value); });
     }
-
-    musicSlider.onValueChanged.AddListener(delegate { SetVolume(musicSlider.value); });
-}
-
 
     public static void SetVolume(float volume)
     {
-        Instance.audioSource.volume = volume;
+        if (Instance.audioSource != null)
+            Instance.audioSource.volume = volume;
     }
 
-  public void PlayBackgroundMusic(bool resetSong, AudioClip audioClip = null)
-{
-    if (audioClip != null)
+    public void PlayBackgroundMusic(bool resetSong, AudioClip audioClip = null)
     {
-        audioSource.clip = audioClip;
-    }
+        if (audioClip != null)
+            audioSource.clip = audioClip;
 
-    if (audioSource.clip != null)
-    {
-        if (resetSong)
+        if (audioSource.clip != null)
         {
-            audioSource.Stop();
+            if (resetSong)
+                audioSource.Stop();
+
+            if (!audioSource.isPlaying)
+                audioSource.Play();
         }
-        audioSource.Play();
     }
-
-}
-
 
     public void PauseBackgroundMusic()
     {
-        audioSource.Pause();
+        if (audioSource != null)
+            audioSource.Pause();
     }
 }

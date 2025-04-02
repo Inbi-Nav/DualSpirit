@@ -61,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
         trailRenderer = GetComponent<TrailRenderer>();
         SpeedItem.OnSpeedBoost += StartSpeedBoost;
         StartCoroutine(LoadSpeedFromBackend());
+        InvokeRepeating(nameof(RefreshSpeed), 3f, 3f);
         jumpsRemaining = maxJumps;
     }
 
@@ -79,6 +80,11 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    void RefreshSpeed()
+{
+    StartCoroutine(LoadSpeedFromBackend());
+}
+
 
     [System.Serializable]
     public class GameSettingsData
